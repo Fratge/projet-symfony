@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>GODASSE | {% block title %}{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        <header class="w-[1440px] h-14 mx-auto text-black mt-8 border-b-2 border-solid border-b-grey pb-20">
+            <nav class="flex items-center w-full gap-20 px-6">
+                <a href="index.html" class="text-2xl font-bold">GODASSE</a>
+                <ul class="flex items-center justify-between w-full text-lg text-grey font-normal">
+                    <div class="flex justify-between gap-14">
+                        <li><a href="{{ path('home') }}">Accueil</a></li>
+                        {# <li><a href="{{ path('boutique') }}">Boutique</a></li> #}
+                        <li><a href="{{ path('contact') }}">Contact</a</li>
+                    </div>
+                    <div class="flex items-center gap-10">
+                        <li><a href="#"><img src="../src/images/panier.svg" fill="#69707D" alt="panier" class="h-8 w-8"></a></li>
+                        <li><a href="#"><img src="../src/images/image-avatar.png" alt="avatar" class="h-12 w-12"></a></li>
+                    </div>
+                </ul>
+            </nav>
+        </header>
+        {% block body %}
+        
+        {% endblock %}
+        <footer class="border-t-2 border-solid border-b-grey pb-20 mt-40">
+            <p class="text-lg text-grey text-center mt-6 font-light">Réalisé par Sébastien GROSS 🙌</p>
+        </footer>
+    </body>
+</html>
