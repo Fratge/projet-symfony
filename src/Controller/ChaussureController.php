@@ -15,9 +15,13 @@ class ChaussureController extends AbstractController
 {
     #[Route('/', name: 'app_chaussure_index', methods: ['GET'])]
     public function index(ChaussureRepository $chaussureRepository): Response
-    {
+    {   
+        $chaussures = $chaussureRepository->findAll();
+        $nbChaussures = count($chaussures);
+
         return $this->render('chaussure/index.html.twig', [
-            'chaussures' => $chaussureRepository->findAll(),
+            'chaussures' => $chaussures,
+            'nbChaussures' => $nbChaussures
         ]);
     }
 

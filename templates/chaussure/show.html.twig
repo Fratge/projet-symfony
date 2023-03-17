@@ -3,21 +3,27 @@
 {% block title %}Chaussure{% endblock %}
 
 {% block body %}
-    <h1>Chaussure</h1>
+    <section class="mt-24">
+        <a href="{{ path('app_chaussure_index') }}" class="font-bold">Retour en arrière</a>
+        <div class="flex justify-center items-center gap-48">
+            <div class="w-100 rounded-15">
+                <img src="{{chaussure.image}}" alt="chaussure" class="rounded-15">
+            </div>
+            <div class="w-100">
+                <h3 class="text-sm text-marque font-bold uppercase mb-3">{{ chaussure.marque }}</h3>
+                <h1 class="font-bold text-5xl mb-5">{{ chaussure.nom }}</h1>
+                <p class="text-description font-normal mb-5">{{ chaussure.description }}</p>
+                <p class="font-bold text-4xl">{{ chaussure.prix }}</p>
+                <div>
+                    <a href="#" class="flex py-5 px-20 bg-button w-80"><img src="{{ asset('images/panier.svg')}}" fill="white" alt="panier" class="h-5 w-5"> Ajouter au panier</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <table class="table">
-        <tbody>
-        <tr>
-          <td>{{ chaussure.nom }}</td>
-          <td>{{ chaussure.prix }}</td>
-          <td><img src="{{chaussure.image}}" class="w-40 h-40"></td>    
-        </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_chaussure_index') }}">back to list</a>
-
+    {% if is_granted('ROLE_ADMIN') %}
     <a href="{{ path('app_chaussure_edit', {'id': chaussure.id}) }}">edit</a>
-
     {{ include('chaussure/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

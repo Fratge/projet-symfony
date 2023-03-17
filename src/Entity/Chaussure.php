@@ -31,6 +31,9 @@ class Chaussure
     #[ORM\OneToMany(mappedBy: 'chaussure', targetEntity: Commentaire::class, orphanRemoval: true)]
     private Collection $commentaires;
 
+    #[ORM\Column(length: 255)]
+    private ?string $marque = null;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
@@ -115,6 +118,18 @@ class Chaussure
                 $commentaire->setChaussure(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMarque(): ?string
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(string $marque): self
+    {
+        $this->marque = $marque;
 
         return $this;
     }
