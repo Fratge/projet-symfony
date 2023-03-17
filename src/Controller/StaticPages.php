@@ -6,7 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Chaussure;
-use App\Repository\CastleRepository;
+use App\Repository\ChaussureRepository;
+
 
 class StaticPages extends AbstractController
 {
@@ -31,6 +32,19 @@ class StaticPages extends AbstractController
  
         return $this->render('contact.html.twig', [
             'titlePage' => $titlePage
+        ]);
+    }
+
+    /**
+    * @Route("/back-office", name="back_office")
+    */
+    public function back_office(ChaussureRepository $chaussureRepository): Response
+    {
+        $titlePage = 'Back-Office';
+ 
+        return $this->render('back_office.html.twig', [
+            'titlePage' => $titlePage,
+            'chaussures' => $chaussureRepository->findAll(),
         ]);
     }
 
