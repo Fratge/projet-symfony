@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ titlePage }}
+{% endblock %}
+{% block body %}
+    <table>
+      {% for chaussure in chaussures %}
+        <tr>
+          <td>{{ chaussure.nom }}</td>
+          <td>{{ chaussure.prix }}</td>
+          <td><img src="{{chaussure.image}}" class="w-40 h-40"></td>
+          <td><a href="{{ path('chaussure_readone', {id:chaussure.id}) }}">Voir plus</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+{% endblock %}
