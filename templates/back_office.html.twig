@@ -20,7 +20,7 @@
                 <td>{{ chaussure.id }}</td>
                 <td>{{ chaussure.nom }}</td>
                 <td>{{ chaussure.Description }}</td>
-                <td>{{ chaussure.prix }}</td>
+                <td>{{ chaussure.prix }} €</td>
                 <td><img src="{{ chaussure.image }}" class="w-40 h-40"></td>
                 <td>
                     <a href="{{ path('app_chaussure_show', {'id': chaussure.id}) }}">show</a>

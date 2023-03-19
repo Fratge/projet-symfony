@@ -12,3 +12,10 @@
         @apply text-blue-800 font-bold 
     }
 }
+
+.bg-image{
+    background: url("../../public/images/nike.jpg");
+    height: 500px;
+    margin-top: 75px;
+    border-radius: 25px;
+}

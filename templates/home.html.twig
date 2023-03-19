@@ -3,5 +3,14 @@
     {{ titlePage }}
 {% endblock %}
 {% block body %}
-
+<div class="flex justify-center gap-20 mt-[75px] items-center">
+    <div class="w-4/12 text-justify">
+        <h1 class="text-3xl">Bienvenue sur <span class="text-marque font-bold"> GODASSE </span> !</h1>
+        <p class="mt-6 mb-11">Godasse est un site de chaussure en ligne qui propose une large sélection de chaussures pour hommes et femmes. 
+        De la sneaker décontractée à la chaussure habillée, en passant par les bottes et les sandales, Godasse a tout ce dont 
+        vous avez besoin pour compléter votre look. </p>
+        <a href="{{ path('app_chaussure_index') }}" class="bg-button py-4 px-16">Voir la liste</a>
+    </div>
+    <img class="w-[550px] rounded-3xl" src="{{ asset('images/accueil_chaussure.jpg') }}" alt="avion illustration" />
+</div>
 {% endblock %}

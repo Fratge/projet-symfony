@@ -23,7 +23,7 @@
                 <p class="text-description font-normal mb-5">{{ chaussure.description }}</p>
                 <p class="font-bold text-4xl">{{ chaussure.prix }} €</p>
                 <div>
-                    <a href="#" class="flex py-5 px-20 bg-button w-80"><img src="{{ asset('images/panier.svg')}}" fill="white" alt="panier" class="h-5 w-5"> Ajouter au panier</a>
+                    <a href="{{ path('chaussure_ajouter_au_panier', {'id': chaussure.id}) }}" class="flex py-5 px-20 bg-button w-80"><img src="{{ asset('images/panier.svg')}}" fill="white" alt="panier" class="h-5 w-5"> Ajouter au panier</a>
                 </div>
             </div>
         </div>
