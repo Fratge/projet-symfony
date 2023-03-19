@@ -4,7 +4,15 @@
 
 {% block body %}
     <section class="mt-24">
-        <a href="{{ path('app_chaussure_index') }}" class="font-bold">Retour en arrière</a>
+        <div class="flex justify-between"> 
+            <a href="{{ path('app_chaussure_index') }}" class="font-bold">Retour en arrière</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="flex gap-4 items-center">
+                    <a href="{{ path('app_chaussure_edit', {'id': chaussure.id}) }}" class="edit-button">Modifier</a>
+                    {{ include('chaussure/_delete_form.html.twig') }}
+                </div>
+            {% endif %}
+        </div>
         <div class="flex justify-center items-center gap-48">
             <div class="w-100 rounded-15">
                 <img src="{{chaussure.image}}" alt="chaussure" class="rounded-15">
@@ -13,7 +21,7 @@
                 <h3 class="text-sm text-marque font-bold uppercase mb-3">{{ chaussure.marque }}</h3>
                 <h1 class="font-bold text-5xl mb-5">{{ chaussure.nom }}</h1>
                 <p class="text-description font-normal mb-5">{{ chaussure.description }}</p>
-                <p class="font-bold text-4xl">{{ chaussure.prix }}</p>
+                <p class="font-bold text-4xl">{{ chaussure.prix }} €</p>
                 <div>
                     <a href="#" class="flex py-5 px-20 bg-button w-80"><img src="{{ asset('images/panier.svg')}}" fill="white" alt="panier" class="h-5 w-5"> Ajouter au panier</a>
                 </div>
@@ -21,9 +29,18 @@
         </div>
     </section>
 
+    <section class="mt-24">
+        <h2 class="text-3xl">Commentaires :</h2>
+        {% if chaussure.commentaires is empty %}
+            <p class="mt-16">Aucun commentaire.</p>
+        {% else %}
+            {% for commentaire in chaussure.commentaires %}
+                <div class="border border-gray-300 rounded-md px-4 py-3 mt-4">
+                    <p class="font-semibold text-sm mt-2">Par {{ commentaire.user.username }}</p>
+                    <p>{{ commentaire.contenu }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </section>
 
-    {% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ path('app_chaussure_edit', {'id': chaussure.id}) }}">edit</a>
-    {{ include('chaussure/_delete_form.html.twig') }}
-    {% endif %}
 {% endblock %}

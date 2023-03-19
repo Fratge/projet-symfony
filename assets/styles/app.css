@@ -3,4 +3,12 @@
 @tailwind utilities;
 
 
+@layer components{
+    .delete-button{
+        @apply text-red-500 font-bold border-2 w-24  h-11 rounded-2xl border-red-500;
+    }
 
+    .edit-button{
+        @apply text-blue-800 font-bold 
+    }
+}
