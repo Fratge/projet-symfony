@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+    <h1>Panier</h1>
+
+ <div>
+ {% for panierChaussure in panierChaussures %}
+     <div class="flex">
+         <p>{{ panierChaussure.nom }}</p>
+         <img src="{{ panierChaussure.image }}" class="w-48">
+         <form action="{{ path('app_panier_delete_item', {'id': panier.id, 'chaussureId': panierChaussure.id}) }}" method="POST">
+             <input type="hidden" name="_method" value="DELETE">
+             <input type="hidden" name="_token" value="{{ csrf_token('delete'~panier.id~panierChaussure.id) }}">
+             <button type="submit" class="btn btn-danger">Remove</button>
+         </form>
+     </div>
+ {% endfor %}
+ </div>
+
+
+
+    <a href="{{ path('app_panier_index') }}">back to list</a>
+
+    <a href="{{ path('app_panier_edit', {'id': panier.id}) }}">edit</a>
+    
+{% endblock %}

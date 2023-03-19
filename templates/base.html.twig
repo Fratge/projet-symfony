@@ -26,6 +26,7 @@
                     <div class="flex items-center gap-10">
                     {% if app.user %}
                         <a href="{{ path('app_logout') }}">Déconnection</a>
+                        <a href="{{ path('app_panier_show', {'id': app.user.panier.id}) }}">Voir Panier</a>   
                         {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('back_office') }}">Back-Office</a>
                         {% endif %}
