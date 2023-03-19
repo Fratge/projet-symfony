@@ -31,9 +31,16 @@ class Chaussure
     #[ORM\OneToMany(mappedBy: 'chaussure', targetEntity: Commentaire::class, orphanRemoval: true)]
     private Collection $commentaires;
 
+    #[ORM\Column(length: 255)]
+    private ?string $marque = null;
+
+    #[ORM\ManyToMany(targetEntity: Panier::class, mappedBy: 'chaussure')]
+    private Collection $paniers;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -114,6 +121,45 @@ class Chaussure
             if ($commentaire->getChaussure() === $this) {
                 $commentaire->setChaussure(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getMarque(): ?string
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(string $marque): self
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): self
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->addChaussure($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): self
+    {
+        if ($this->paniers->removeElement($panier)) {
+            $panier->removeChaussure($this);
         }
 
         return $this;

@@ -21,6 +21,9 @@ class Commentaire
     #[ORM\JoinColumn(nullable: false)]
     private ?Chaussure $chaussure = null;
 
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +49,18 @@ class Commentaire
     public function setChaussure(?Chaussure $chaussure): self
     {
         $this->chaussure = $chaussure;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

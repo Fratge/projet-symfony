@@ -13,22 +13,29 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-        <header class="w-[1440px] h-14 mx-auto text-black mt-8 border-b-2 border-solid border-b-grey pb-20">
+    <body class="w-[1440px] mx-auto">
+        <header class=" h-14 mx-auto text-black mt-8 border-b-2 border-solid border-b-grey pb-20">
             <nav class="flex items-center w-full gap-20 px-6">
                 <a href="index.html" class="text-2xl font-bold">GODASSE</a>
                 <ul class="flex items-center justify-between w-full text-lg text-grey font-normal">
                     <div class="flex justify-between gap-14">
                         <li><a href="{{ path('home') }}">Accueil</a></li>
-                        <li><a href="{{ path('chaussures') }}">Chaussures</a></li>
+                        <li><a href="{{ path('app_chaussure_index') }}">Chaussures</a></li>
                         <li><a href="{{ path('contact') }}">Contact</a></li>
                     </div>
                     <div class="flex items-center gap-10">
-                        <li><a href="#"><img src="../src/images/panier.svg" fill="#69707D" alt="panier" class="h-8 w-8"></a></li>
-                        <li><a href="#"><img src="../src/images/image-avatar.png" alt="avatar" class="h-12 w-12"></a></li>
+                    {% if app.user %}
+                        <a href="{{ path('app_logout') }}">Déconnection</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('back_office') }}">Back-Office</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ path('app_login') }}">Se connecter</a>
+                    {% endif %}
                     </div>
                 </ul>
             </nav>
+
         </header>
         {% block body %}
         

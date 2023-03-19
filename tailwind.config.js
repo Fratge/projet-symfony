@@ -5,7 +5,26 @@ module.exports = {
     "./templates/**/*.html.twig",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'description' : '#69707D',
+        'b-grey' : '#E4E9F2',
+        'marque': '#FF7E1B',
+        'button': '#FFAB6A'
+      },
+      fontFamily: {
+        'Kumbh':  ['Kumbh Sans']
+      },
+      borderWidth: {
+        '1': '1px',
+      },
+      borderRadius: {
+        '15': '15px',
+      },
+      width: {
+        '100': '475px',
+      }
+    },
   },
   plugins: [],
 }

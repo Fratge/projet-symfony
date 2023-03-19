@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components{
+    .delete-button{
+        @apply text-red-500 font-bold border-2 w-24  h-11 rounded-2xl border-red-500;
+    }
+
+    .edit-button{
+        @apply text-blue-800 font-bold 
+    }
+}
+
+.bg-image{
+    background: url("../../public/images/nike.jpg");
+    height: 500px;
+    margin-top: 75px;
+    border-radius: 25px;
+}
