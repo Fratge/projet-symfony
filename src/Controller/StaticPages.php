@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Chaussure;
 use App\Repository\ChaussureRepository;
+use App\Repository\PanierRepository;
 
 
 class StaticPages extends AbstractController
@@ -36,16 +37,18 @@ class StaticPages extends AbstractController
     }
 
     /**
-    * @Route("/back-office", name="back_office")
-    */
-    public function back_office(ChaussureRepository $chaussureRepository): Response
+     * @Route("/back-office", name="back_office")
+     */
+    public function back_office(ChaussureRepository $chaussureRepository, PanierRepository $panierRepository): Response
     {
         $titlePage = 'Back-Office';
- 
+
         return $this->render('back_office.html.twig', [
             'titlePage' => $titlePage,
             'chaussures' => $chaussureRepository->findAll(),
+            'paniers' => $panierRepository->findAll(),
         ]);
     }
+
 
 }

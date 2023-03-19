@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+    <h1 class="font-bold text-3xl mt-[75px]">Panier</h1>
+
+ <div class="mb-16">
+ {% set total = 0 %}
+ {% for panierChaussure in panierChaussures %}
+     <div class="flex items-center gap-7 w-full justify-between border-solid border-b-1 border-black py-6">
+         <p class="text-xl w-1/4">{{ panierChaussure.nom }}</p>
+         <p class="text-xl w-1/4">{{ panierChaussure.prix }} €</p>
+         <img src="{{ panierChaussure.image }}" class="w-48">
+
+         <form action="{{ path('app_panier_delete_item', {'id': panier.id, 'chaussureId': panierChaussure.id}) }}" method="POST">
+             <input type="hidden" name="_method" value="DELETE">
+             <input type="hidden" name="_token" value="{{ csrf_token('delete'~panier.id~panierChaussure.id) }}">
+             <button type="submit" class="btn btn-danger bg-red-500 p-3 rounded-xl text-white font-bold">Remove</button>
+         </form>
+     </div>
+     {% set total = total + panierChaussure.prix %}
+ {% endfor %}
+    <h1 class="text-right mt-8 font-bold text-2xl">Total : {{ total }} €</h1>
+ </div>
+
+
+
+    <a href="{{ path('app_chaussure_index') }}" class="py-5 px-20 bg-button w-64 items-center justify-between">Continuer les achats</a>
+    
+{% endblock %}

@@ -13,7 +13,6 @@ use App\Entity\Panier;
 use App\Repository\PanierRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-
 #[Route('/chaussures')]
 class ChaussureController extends AbstractController
 {
