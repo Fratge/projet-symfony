@@ -12,6 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Panier;
 use App\Repository\PanierRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Form\CommentaireType;
+use App\Entity\Commentaire;
+
 
 #[Route('/chaussures')]
 class ChaussureController extends AbstractController
@@ -21,7 +24,7 @@ class ChaussureController extends AbstractController
     {   
         $chaussures = $chaussureRepository->findAll();
         $nbChaussures = count($chaussures);
-
+        
         return $this->render('chaussure/index.html.twig', [
             'chaussures' => $chaussures,
             'nbChaussures' => $nbChaussures
@@ -48,10 +51,34 @@ class ChaussureController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_chaussure_show', methods: ['GET'])]
-    public function show(Chaussure $chaussure): Response
+    public function show(Chaussure $chaussure, Request $request): Response
     {
+        $commentaire = new Commentaire();
+        $commentaire->setChaussure($chaussure);
+
+        $form = $this->createForm(CommentaireType::class, $commentaire);
+        // var_dump($form);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentaire = $form->getData();
+
+            // Récupérer l'utilisateur actuel et le définir comme l'utilisateur du commentaire
+            $utilisateur = $this->getUser();
+            $commentaire->setUser($utilisateur);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre commentaire a été ajouté');
+
+            return $this->redirectToRoute('app_chaussure_show', ['id' => $id]);
+        }
+
         return $this->render('chaussure/show.html.twig', [
             'chaussure' => $chaussure,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -110,4 +137,5 @@ class ChaussureController extends AbstractController
         // return new RedirectResponse($this->generateUrl('panier_index'));
         return $this->redirectToRoute('app_chaussure_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

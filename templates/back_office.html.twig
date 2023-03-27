@@ -3,64 +3,92 @@
     {{ titlePage }}
 {% endblock %}
 {% block body %}
-    <table class="table">
-    <caption>Chaussures</caption>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for chaussure in chaussures %}
-            <tr>
-                <td>{{ chaussure.id }}</td>
-                <td>{{ chaussure.nom }}</td>
-                <td>{{ chaussure.Description }}</td>
-                <td>{{ chaussure.prix }} €</td>
-                <td><img src="{{ chaussure.image }}" class="w-40 h-40"></td>
-                <td>
-                    <a href="{{ path('app_chaussure_show', {'id': chaussure.id}) }}">show</a>
-                    <a href="{{ path('app_chaussure_edit', {'id': chaussure.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <a href="{{ path('app_chaussure_new') }}">Create new</a>
 
+    <h1 class="font-bold text-4xl mt-[75px] mb-12">Gestion des chaussures</h1>
+    <div class="relative overflow-x-auto shadow-md">
+        <table class="w-full text-sm text-left text-black">
+            <thead class="text-xs uppercase bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        ID
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Nom du produit
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Description
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Prix
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Image
+                    </th> 
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for chaussure in chaussures %}
+                <tr class="bg-white border-b">
+                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-center">
+                        {{ chaussure.id }}
+                    </th>
+                    <td class="px-6 py-4 text-center">
+                        {{ chaussure.nom }}
+                    </td>
+                    <td class="px-6 py-4 w-64 text-center">
+                        {{ chaussure.description }}
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        {{ chaussure.prix }} €
+                    </td>
+                    <td class="w-40 h-40 text-center">
+                        <img src="{{ chaussure.image }}">
+                    </td>
 
-    <table class="table mt-24">
-    <caption>Paniers utilisateurs</caption>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for panier in paniers %}
-            <tr>
-                <td>{{ panier.id }}</td>
-                <td>
-                    <a href="{{ path('app_panier_show', {'id': panier.id}) }}">show</a>
-                    {# <a href="{{ path('app_panier_edit', {'id': panier.id}) }}">edit</a> #}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="2">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    <td class="px-6 py-4">
+                        <div class="flex gap-7 justify-center items-center">
+                            <a href="{{ path('app_chaussure_show', {'id': chaussure.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Voir</a>
+                            <a href="{{ path('app_chaussure_edit', {'id': chaussure.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
+                            {{ include('chaussure/_delete_form.html.twig') }}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h1 class="font-bold text-4xl mt-16">Paniers utilisateurs</h1>
+    <p class="italic text-gray-600 mb-12">Il n'est pas possible de supprimer un panier car chaque utilisateur est obligé d'en posséder un ! </p>
+    <div class="relative overflow-x-auto shadow-md">
+        <table class="w-full text-sm text-left text-black">
+            <thead class="text-xs uppercase bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Id
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        actions                    
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for panier in paniers %}
+                <tr class="bg-white border-b">
+                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-center">
+                        {{ panier.id }}
+                    </th>
+                    <td class="px-6 py-4 flex gap-7 justify-center items-center h-full">
+                        <a href="{{ path('app_panier_show', {'id': panier.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Voir</a>
+                        <a href="{{ path('app_panier_edit', {'id': panier.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

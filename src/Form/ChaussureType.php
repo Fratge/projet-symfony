@@ -13,6 +13,7 @@ class ChaussureType extends AbstractType
     {
         $builder
             ->add('nom')
+            ->add('marque')
             ->add('description')
             ->add('prix')
             ->add('image')
