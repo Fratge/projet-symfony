@@ -5,6 +5,7 @@
 {% block body %}
 
     <h1 class="font-bold text-4xl mt-[75px] mb-12">Gestion des chaussures</h1>
+    <a href="{{ path('app_chaussure_new') }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Créer +</a>
     <div class="relative overflow-x-auto shadow-md">
         <table class="w-full text-sm text-left text-black">
             <thead class="text-xs uppercase bg-gray-50">
@@ -89,6 +90,88 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
+
+    <h1 class="font-bold text-4xl mt-24 mb-12">Commentaires</h1>
+    <div class="relative overflow-x-auto shadow-md">
+        <table class="w-full text-sm text-left text-black">
+            <thead class="text-xs uppercase bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Id
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Auteur                    
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Contenu                    
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Articles                   
+                    </th>                      
+                    <th scope="col" class="px-6 py-3 text-center">
+                        actions                    
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for commentaire in commentaires %}
+                <tr class="bg-white border-b">
+                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-center">
+                        {{ commentaire.id }}
+                    </th>
+                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-center">
+                        {{ commentaire.user }}
+                    </th>
+                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-center">
+                        {{ commentaire.contenu }}
+                    </th>
+                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-center">
+                        {{ commentaire.chaussure }}
+                    </th>
+                    <td class="px-6 py-4 flex gap-7 justify-center items-center h-full">
+                        {{ include('commentaire/_delete_form.html.twig') }}
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    <h1 class="font-bold text-4xl mt-24 mb-12">Filtres</h1>
+    <div class="relative overflow-x-auto shadow-md">
+        <table class="w-full text-sm text-left text-black">
+            <thead class="text-xs uppercase bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Id
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Nom                    
+                    </th>              
+                    <th scope="col" class="px-6 py-3 text-center">
+                        actions                    
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for filtre in filtres %}
+                <tr class="bg-white border-b">
+                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-center">
+                        {{ filtre.id }}
+                    </th>
+                    <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-center">
+                        {{ filtre.nom }}
+                    </th>
+                    <td class="px-6 py-4 flex gap-7 justify-center items-center h-full">
+                        <a href="{{ path('app_filtre_edit', {'id': filtre.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
     </div>
 
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Filtre{% endblock %}
+
+{% block body %}
+    <h1>Edit Filtre</h1>
+
+    {{ include('filtre/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_filtre_index') }}">back to list</a>
+
+    {{ include('filtre/_delete_form.html.twig') }}
+{% endblock %}

@@ -37,10 +37,14 @@ class Chaussure
     #[ORM\ManyToMany(targetEntity: Panier::class, mappedBy: 'chaussure')]
     private Collection $paniers;
 
+    #[ORM\ManyToMany(targetEntity: Filtre::class, mappedBy: 'chaussure')]
+    private Collection $filtres;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
         $this->paniers = new ArrayCollection();
+        $this->filtres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,5 +173,32 @@ class Chaussure
     {
         return $this->getNom();
         return $this->getUser();
+    }
+
+    /**
+     * @return Collection<int, Filtre>
+     */
+    public function getFiltres(): Collection
+    {
+        return $this->filtres;
+    }
+
+    public function addFiltre(Filtre $filtre): self
+    {
+        if (!$this->filtres->contains($filtre)) {
+            $this->filtres->add($filtre);
+            $filtre->addChaussure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFiltre(Filtre $filtre): self
+    {
+        if ($this->filtres->removeElement($filtre)) {
+            $filtre->removeChaussure($this);
+        }
+
+        return $this;
     }
 }

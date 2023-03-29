@@ -14,20 +14,24 @@ use App\Repository\PanierRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Form\CommentaireType;
 use App\Entity\Commentaire;
+use App\Repository\FiltreRepository;
 
+use App\Entity\Filtre;
 
 #[Route('/chaussures')]
 class ChaussureController extends AbstractController
 {
     #[Route('/', name: 'app_chaussure_index', methods: ['GET'])]
-    public function index(ChaussureRepository $chaussureRepository): Response
+    public function index(ChaussureRepository $chaussureRepository, FiltreRepository $filtreRepository): Response
     {   
         $chaussures = $chaussureRepository->findAll();
+        $filtres = $filtreRepository->findAll();
         $nbChaussures = count($chaussures);
         
         return $this->render('chaussure/index.html.twig', [
             'chaussures' => $chaussures,
-            'nbChaussures' => $nbChaussures
+            'nbChaussures' => $nbChaussures,
+            'filtres' => $filtres,
         ]);
     }
 
@@ -107,7 +111,7 @@ class ChaussureController extends AbstractController
             $chaussureRepository->remove($chaussure, true);
         }
 
-        return $this->redirectToRoute('app_chaussure_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('back_office', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/ajouter-au-panier', name: 'chaussure_ajouter_au_panier')]
@@ -136,6 +140,19 @@ class ChaussureController extends AbstractController
         // Rediriger l'utilisateur vers la page du panier
         // return new RedirectResponse($this->generateUrl('panier_index'));
         return $this->redirectToRoute('app_chaussure_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/chaussures/filtre/{id}', name: 'app_chaussure_filtre')]
+    public function afficherChaussuresFiltre(Filtre $filtre, FiltreRepository $filtreRepository, ChaussureRepository $chaussureRepository, $id): Response
+    {
+        $chaussures = $filtre->getChaussure();
+        $filtres = $filtreRepository->find($id);
+        
+        return $this->render('chaussure/filtre.html.twig', [
+            'chaussures' => $chaussures,
+            'nbChaussures' => count($chaussures),
+            'filtres' => $filtres,
+        ]);
     }
 
 }
