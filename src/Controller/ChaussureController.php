@@ -12,19 +12,26 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Panier;
 use App\Repository\PanierRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Form\CommentaireType;
+use App\Entity\Commentaire;
+use App\Repository\FiltreRepository;
+
+use App\Entity\Filtre;
 
 #[Route('/chaussures')]
 class ChaussureController extends AbstractController
 {
     #[Route('/', name: 'app_chaussure_index', methods: ['GET'])]
-    public function index(ChaussureRepository $chaussureRepository): Response
+    public function index(ChaussureRepository $chaussureRepository, FiltreRepository $filtreRepository): Response
     {   
         $chaussures = $chaussureRepository->findAll();
+        $filtres = $filtreRepository->findAll();
         $nbChaussures = count($chaussures);
-
+        
         return $this->render('chaussure/index.html.twig', [
             'chaussures' => $chaussures,
-            'nbChaussures' => $nbChaussures
+            'nbChaussures' => $nbChaussures,
+            'filtres' => $filtres,
         ]);
     }
 
@@ -48,10 +55,34 @@ class ChaussureController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_chaussure_show', methods: ['GET'])]
-    public function show(Chaussure $chaussure): Response
+    public function show(Chaussure $chaussure, Request $request): Response
     {
+        $commentaire = new Commentaire();
+        $commentaire->setChaussure($chaussure);
+
+        $form = $this->createForm(CommentaireType::class, $commentaire);
+        // var_dump($form);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentaire = $form->getData();
+
+            // Récupérer l'utilisateur actuel et le définir comme l'utilisateur du commentaire
+            $utilisateur = $this->getUser();
+            $commentaire->setUser($utilisateur);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre commentaire a été ajouté');
+
+            return $this->redirectToRoute('app_chaussure_show', ['id' => $id]);
+        }
+
         return $this->render('chaussure/show.html.twig', [
             'chaussure' => $chaussure,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -80,7 +111,7 @@ class ChaussureController extends AbstractController
             $chaussureRepository->remove($chaussure, true);
         }
 
-        return $this->redirectToRoute('app_chaussure_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('back_office', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/ajouter-au-panier', name: 'chaussure_ajouter_au_panier')]
@@ -110,4 +141,18 @@ class ChaussureController extends AbstractController
         // return new RedirectResponse($this->generateUrl('panier_index'));
         return $this->redirectToRoute('app_chaussure_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/chaussures/filtre/{id}', name: 'app_chaussure_filtre')]
+    public function afficherChaussuresFiltre(Filtre $filtre, FiltreRepository $filtreRepository, ChaussureRepository $chaussureRepository, $id): Response
+    {
+        $chaussures = $filtre->getChaussure();
+        $filtres = $filtreRepository->find($id);
+        
+        return $this->render('chaussure/filtre.html.twig', [
+            'chaussures' => $chaussures,
+            'nbChaussures' => count($chaussures),
+            'filtres' => $filtres,
+        ]);
+    }
+
 }

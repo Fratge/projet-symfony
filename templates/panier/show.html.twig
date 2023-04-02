@@ -3,7 +3,7 @@
 {% block title %}Panier{% endblock %}
 
 {% block body %}
-    <h1 class="font-bold text-3xl mt-[75px]">Panier</h1>
+    <h1 class="font-bold text-4xl mt-[75px] mb-12">Panier</h1>
 
  <div class="mb-16">
  {% set total = 0 %}
@@ -12,12 +12,15 @@
          <p class="text-xl w-1/4">{{ panierChaussure.nom }}</p>
          <p class="text-xl w-1/4">{{ panierChaussure.prix }} €</p>
          <img src="{{ panierChaussure.image }}" class="w-48">
+         <div class="flex gap-4">
+            <a href="{{ path('app_chaussure_show', {'id': panierChaussure.id}) }}" class="bg-gray-500 p-3 w-24 rounded-xl text-center text-white font-bold">Voir</a>
 
-         <form action="{{ path('app_panier_delete_item', {'id': panier.id, 'chaussureId': panierChaussure.id}) }}" method="POST">
-             <input type="hidden" name="_method" value="DELETE">
-             <input type="hidden" name="_token" value="{{ csrf_token('delete'~panier.id~panierChaussure.id) }}">
-             <button type="submit" class="btn btn-danger bg-red-500 p-3 rounded-xl text-white font-bold">Remove</button>
-         </form>
+            <form action="{{ path('app_panier_delete_item', {'id': panier.id, 'chaussureId': panierChaussure.id}) }}" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete'~panier.id~panierChaussure.id) }}">
+                <button type="submit" class="btn btn-danger bg-red-500 p-3 w-28 rounded-xl text-white font-bold">Supprimer</button>
+            </form>
+         </div>
      </div>
      {% set total = total + panierChaussure.prix %}
  {% endfor %}

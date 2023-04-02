@@ -6,12 +6,12 @@
     <section class="mt-24">
         <div class="flex justify-between"> 
             <a href="{{ path('app_chaussure_index') }}" class="font-bold">Retour en arrière</a>
-            {% if is_granted('ROLE_ADMIN') %}
+            {# {% if is_granted('ROLE_ADMIN') %}
                 <div class="flex gap-4 items-center">
                     <a href="{{ path('app_chaussure_edit', {'id': chaussure.id}) }}" class="edit-button">Modifier</a>
                     {{ include('chaussure/_delete_form.html.twig') }}
                 </div>
-            {% endif %}
+            {% endif %} #}
         </div>
         <div class="flex justify-center items-center gap-48">
             <div class="w-100 rounded-15">
@@ -23,7 +23,9 @@
                 <p class="text-description font-normal mb-5">{{ chaussure.description }}</p>
                 <p class="font-bold text-4xl">{{ chaussure.prix }} €</p>
                 <div>
-                    <a href="{{ path('chaussure_ajouter_au_panier', {'id': chaussure.id}) }}" class="flex py-5 px-20 bg-button w-80"><img src="{{ asset('images/panier.svg')}}" fill="white" alt="panier" class="h-5 w-5"> Ajouter au panier</a>
+                    <a href="{{ path('chaussure_ajouter_au_panier', {'id': chaussure.id}) }}" class="flex py-5 px-20 bg-button w-80">
+                        <img src="{{ asset('images/panier.svg')}}" fill="white" alt="panier" class="h-5 w-5"> Ajouter au panier
+                    </a>
                 </div>
             </div>
         </div>
@@ -42,6 +44,21 @@
             {% endfor %}
         {% endif %}
     </section>
+
+	<h1 class="font-bold text-4xl mt-40 mb-12 md:text-5xl">
+		Ajoutez un commentaire !
+	</h1>
+	<div class="mb-28">
+		<form class="flex flex-col" action="{{ path('app_chaussure_commentaire', {'id': chaussure.id}) }}" method="POST">
+			{{ form_widget(form) }}
+			<button type="submit" class="w-56 h-12 btn-gradient font-semibold inline mt-10">
+				Ajouter un commentaire
+			</button>
+		</form>
+	</div>
+
+
+    
     
 
 {% endblock %}

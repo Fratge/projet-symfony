@@ -5,3 +5,8 @@
 app_panier_index:
     path: /panier
     controller: App\Controller\PanierController::index
+
+app_chaussure_filtre:
+    path: '/chaussures/filtre/{id}'
+    controller: 'App\Controller\ChaussureController::afficherChaussuresFiltre'
+    methods: ['GET']

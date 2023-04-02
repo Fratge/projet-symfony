@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Chaussure;
 use App\Repository\ChaussureRepository;
 use App\Repository\PanierRepository;
+use App\Repository\CommentaireRepository;
+use App\Repository\FiltreRepository;
 
 
 class StaticPages extends AbstractController
@@ -39,14 +41,21 @@ class StaticPages extends AbstractController
     /**
      * @Route("/back-office", name="back_office")
      */
-    public function back_office(ChaussureRepository $chaussureRepository, PanierRepository $panierRepository): Response
+    public function back_office(
+        ChaussureRepository $chaussureRepository, 
+        PanierRepository $panierRepository, 
+        FiltreRepository $filtreRepository,
+        CommentaireRepository $commentaireRepository): Response
     {
         $titlePage = 'Back-Office';
-
+        $commentaires = $commentaireRepository->findBy([], ['id' => 'DESC'], null, null, ['utilisateur']);
+        
         return $this->render('back_office.html.twig', [
             'titlePage' => $titlePage,
             'chaussures' => $chaussureRepository->findAll(),
             'paniers' => $panierRepository->findAll(),
+            'commentaires' => $commentaireRepository->findAll(),
+            'filtres' => $filtreRepository->findAll(),
         ]);
     }
 

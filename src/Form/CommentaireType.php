@@ -6,16 +6,22 @@ use App\Entity\Commentaire;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class CommentaireType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('contenu')
-            ->add('chaussure')
-            ->add('user')
+            ->add('contenu', TextareaType::class, [
+                'label' => 'Commentaire',
+                'attr' => [
+                    'placeholder' => 'Votre commentaire ici...',
+                    'rows' => 5,
+                ],
+            ])
         ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
